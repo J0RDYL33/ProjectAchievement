@@ -8,10 +8,14 @@ public class PlayerMovement : MonoBehaviour
     public float runSpeed = 40f;
     public Animator myAnimator;
 
-    float horizontalMove = 0f;
+    CircleCollider2D myCollider;
+    public float horizontalMove = 0f;
     bool jump = false;
 
-
+    private void Start()
+    {
+        myCollider = GetComponent<CircleCollider2D>();
+    }
     // Update is called once per frame
     void Update()
     {

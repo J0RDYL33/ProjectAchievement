@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,6 +20,7 @@ public class CharacterController2D : MonoBehaviour
 	private Rigidbody2D m_Rigidbody2D;
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 m_Velocity = Vector3.zero;
+	private Animator myAnimator;
 
 	[Header("Events")]
 	[Space]
@@ -30,9 +33,23 @@ public class CharacterController2D : MonoBehaviour
 	public BoolEvent OnCrouchEvent;
 	private bool m_wasCrouching = false;
 
+	public bool isTouchingFront;
+	public Transform frontCheck;
+	public bool wallSliding;
+	public float wallSlidingSpeed;
+	PlayerMovement myMovement;
+	public bool wallJumping;
+	public float xWallForce;
+	public float yWallForce;
+	public float wallJumpTime;
+	public float maxGrappleRange = 20f;
+	Vector2 direction;
+
 	private void Awake()
 	{
 		m_Rigidbody2D = GetComponent<Rigidbody2D>();
+		myAnimator = GetComponent<Animator>();
+		myMovement = FindObjectOfType<PlayerMovement>();
 
 		if (OnLandEvent == null)
 			OnLandEvent = new UnityEvent();
@@ -54,11 +71,62 @@ public class CharacterController2D : MonoBehaviour
 			if (colliders[i].gameObject != gameObject)
 			{
 				m_Grounded = true;
+				myAnimator.SetBool("Jumping", false);
 				if (!wasGrounded)
 					OnLandEvent.Invoke();
 			}
 		}
+
 	}
+
+    private void Update()
+    {
+		isTouchingFront = Physics2D.OverlapCircle(frontCheck.position, k_GroundedRadius, m_WhatIsGround);
+
+		if (isTouchingFront == true && m_Grounded == false && Input.GetAxisRaw("Horizontal") != 0)
+		{
+			wallSliding = true;
+		}
+		else
+		{
+			wallSliding = false;
+		}
+
+		if (wallSliding == true)
+		{
+			m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, Mathf.Clamp(m_Rigidbody2D.velocity.y, -wallSlidingSpeed, float.MaxValue));
+		}
+		if (Input.GetKeyDown(KeyCode.Space) && wallSliding == true)
+		{
+			wallJumping = true;
+			Invoke("SetWallJumpingToFalse", wallJumpTime);
+		}
+		if (wallJumping == true)
+		{
+			m_Rigidbody2D.AddForce(new Vector2(-myMovement.horizontalMove / 10, m_JumpForce / 75));
+			myAnimator.SetBool("Jumping", true);
+		}
+	}
+
+	public void GrappleToWall(Transform grapTrans)
+    {
+		var pointer = grapTrans.position - gameObject.transform.position;
+		var distance = pointer.magnitude;
+		direction = pointer / distance;
+
+		m_Rigidbody2D.velocity = (transform.right * 20) + transform.up * 20 * 2;
+	}
+
+	IEnumerator Propel()
+    {
+		yield return new WaitForSeconds(0.1f);
+		m_Rigidbody2D.AddForce(direction * 500);
+	}
+
+    void SetWallJumpingToFalse()
+    {
+		wallJumping = false;
+    }
 
 
 	public void Move(float move, bool crouch, bool jump)
@@ -129,6 +197,7 @@ public class CharacterController2D : MonoBehaviour
 			// Add a vertical force to the player.
 			m_Grounded = false;
 			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+			myAnimator.SetBool("Jumping", true);
 		}
 	}
 
@@ -139,8 +208,10 @@ public class CharacterController2D : MonoBehaviour
 		m_FacingRight = !m_FacingRight;
 
 		// Multiply the player's x local scale by -1.
-		Vector3 theScale = transform.localScale;
+		/*Vector3 theScale = transform.localScale;
 		theScale.x *= -1;
-		transform.localScale = theScale;
+		transform.localScale = theScale;*/
+
+		transform.Rotate(0f, 180f, 0f);
 	}
 }
