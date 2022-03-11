@@ -6,14 +6,18 @@ public class Grappler : MonoBehaviour
 {
     public Transform firePoint;
     public GameObject grapplePrefab;
+    private float fireTimer = 3.0f;
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("Fire2") && fireTimer <= 0)
         {
             Shoot();
+            fireTimer = 3.0f;
         }
+
+        fireTimer -= Time.deltaTime;
     }
 
     void Shoot()

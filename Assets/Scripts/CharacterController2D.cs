@@ -43,6 +43,9 @@ public class CharacterController2D : MonoBehaviour
 	public float yWallForce;
 	public float wallJumpTime;
 	public float maxGrappleRange = 20f;
+	private bool allowWallJump = true;
+	private float attackCountdown = 0.5f;
+	public bool stopAttack;
 	Vector2 direction;
 
 	private void Awake()
@@ -83,12 +86,22 @@ public class CharacterController2D : MonoBehaviour
     {
 		isTouchingFront = Physics2D.OverlapCircle(frontCheck.position, k_GroundedRadius, m_WhatIsGround);
 
+		attackCountdown -= Time.deltaTime;
+
+		if (stopAttack == true)
+		{
+			stopAttack = false;
+			myAnimator.SetBool("Attacking", false);
+		}
+
 		if (isTouchingFront == true && m_Grounded == false && Input.GetAxisRaw("Horizontal") != 0)
 		{
+			myAnimator.SetBool("WallSliding", true);
 			wallSliding = true;
 		}
 		else
 		{
+			myAnimator.SetBool("WallSliding", false);
 			wallSliding = false;
 		}
 
@@ -101,26 +114,44 @@ public class CharacterController2D : MonoBehaviour
 			wallJumping = true;
 			Invoke("SetWallJumpingToFalse", wallJumpTime);
 		}
-		if (wallJumping == true)
+		if (wallJumping == true && allowWallJump == true)
 		{
-			m_Rigidbody2D.AddForce(new Vector2(-myMovement.horizontalMove / 10, m_JumpForce / 75));
+			StartCoroutine(CountdownWalljump());
+			//m_Rigidbody2D.AddForce(new Vector2(-myMovement.horizontalMove / 10, m_JumpForce / 75));
+			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
 			myAnimator.SetBool("Jumping", true);
+		}
+
+		//Attack inputs
+		if (Input.GetButtonDown("Fire1") && attackCountdown <= 0)
+        {
+			attackCountdown = 0.5f;
+			myAnimator.SetBool("Attacking", true);
 		}
 	}
 
+	IEnumerator CountdownWalljump()
+    {
+		allowWallJump = false;
+		yield return new WaitForSeconds(0.5f);
+		allowWallJump = true;
+    }
+
 	public void GrappleToWall(Transform grapTrans)
     {
+		m_Grounded = false;
 		var pointer = grapTrans.position - gameObject.transform.position;
 		var distance = pointer.magnitude;
 		direction = pointer / distance;
-
-		m_Rigidbody2D.velocity = (transform.right * 20) + transform.up * 20 * 2;
-	}
-
-	IEnumerator Propel()
-    {
-		yield return new WaitForSeconds(0.1f);
-		m_Rigidbody2D.AddForce(direction * 500);
+		if (grapTrans.transform.position.x > gameObject.transform.position.x)
+		{
+			m_Rigidbody2D.AddForce(new Vector2(-grapTrans.transform.position.x, grapTrans.transform.position.y).normalized * 1000);
+		}
+		else
+        {
+			m_Rigidbody2D.AddForce(new Vector2(grapTrans.transform.position.x, grapTrans.transform.position.y).normalized * 1000);
+		}
+		myAnimator.SetBool("Jumping", true);
 	}
 
     void SetWallJumpingToFalse()

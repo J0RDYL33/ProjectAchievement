@@ -7,6 +7,7 @@ public class GrappleMovement : MonoBehaviour
     public float speed = 20;
     public Rigidbody2D myRb;
     CharacterController2D myController;
+    private float timeTilDeath = 3.0f;
 
 
     // Start is called before the first frame update
@@ -19,12 +20,18 @@ public class GrappleMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //Rotate it
+        gameObject.transform.Rotate(new Vector3(0.0f, 0.0f, -1.0f), 1.0f);
+
+        timeTilDeath -= Time.deltaTime;
+
+        if (timeTilDeath <= 0)
+            Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.name == "MainCharacter")
+        if (other.tag == "Player")
             return;
 
         //Send position to the player, add velocity to player in direction
