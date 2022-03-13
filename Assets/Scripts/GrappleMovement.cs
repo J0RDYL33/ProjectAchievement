@@ -34,11 +34,15 @@ public class GrappleMovement : MonoBehaviour
         if (other.tag == "Player")
             return;
 
-        //Send position to the player, add velocity to player in direction
-        //Destroy bullet after 1 second of not hitting anything
-        myController.GrappleToWall(gameObject.transform);
-        Debug.Log(other.name);
-        Debug.Log("Position: " + gameObject.transform.position.x + ", " + gameObject.transform.position.y + ", " + gameObject.transform.position.z);
-        Destroy(gameObject);
+        if (other.tag != "grappleWall")
+            Destroy(gameObject);
+
+        if (other.tag == "grappleWall")
+        {
+            myController.GrappleToWall(gameObject.transform);
+            Debug.Log(other.name);
+            Debug.Log("Position: " + gameObject.transform.position.x + ", " + gameObject.transform.position.y + ", " + gameObject.transform.position.z);
+            Destroy(gameObject);
+        }
     }
 }

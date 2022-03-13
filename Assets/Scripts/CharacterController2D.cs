@@ -145,11 +145,11 @@ public class CharacterController2D : MonoBehaviour
 		direction = pointer / distance;
 		if (grapTrans.transform.position.x > gameObject.transform.position.x)
 		{
-			m_Rigidbody2D.AddForce(new Vector2(-grapTrans.transform.position.x, grapTrans.transform.position.y).normalized * 1000);
+			m_Rigidbody2D.AddForce(new Vector2(grapTrans.transform.position.x, grapTrans.transform.position.y).normalized * 1000);
 		}
 		else
         {
-			m_Rigidbody2D.AddForce(new Vector2(grapTrans.transform.position.x, grapTrans.transform.position.y).normalized * 1000);
+			m_Rigidbody2D.AddForce(new Vector2(-grapTrans.transform.position.x, grapTrans.transform.position.y).normalized * 1000);
 		}
 		myAnimator.SetBool("Jumping", true);
 	}
