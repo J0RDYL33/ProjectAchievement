@@ -21,6 +21,7 @@ public class CharacterController2D : MonoBehaviour
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
 	private Vector3 m_Velocity = Vector3.zero;
 	private Animator myAnimator;
+	private FrontCheckGetCollider myFrontCheck;
 
 	[Header("Events")]
 	[Space]
@@ -53,6 +54,7 @@ public class CharacterController2D : MonoBehaviour
 		m_Rigidbody2D = GetComponent<Rigidbody2D>();
 		myAnimator = GetComponent<Animator>();
 		myMovement = FindObjectOfType<PlayerMovement>();
+		myFrontCheck = FindObjectOfType<FrontCheckGetCollider>();
 
 		if (OnLandEvent == null)
 			OnLandEvent = new UnityEvent();
@@ -94,7 +96,7 @@ public class CharacterController2D : MonoBehaviour
 			myAnimator.SetBool("Attacking", false);
 		}
 
-		if (isTouchingFront == true && m_Grounded == false && Input.GetAxisRaw("Horizontal") != 0)
+		if (isTouchingFront == true && m_Grounded == false && Input.GetAxisRaw("Horizontal") != 0 && myFrontCheck.isFrontClimbable == true)
 		{
 			myAnimator.SetBool("WallSliding", true);
 			wallSliding = true;
@@ -145,11 +147,13 @@ public class CharacterController2D : MonoBehaviour
 		direction = pointer / distance;
 		if (grapTrans.transform.position.x > gameObject.transform.position.x)
 		{
-			m_Rigidbody2D.AddForce(new Vector2(grapTrans.transform.position.x, grapTrans.transform.position.y).normalized * 1000);
+			//m_Rigidbody2D.AddForce(new Vector2(grapTrans.transform.position.x, grapTrans.transform.position.y).normalized * 1000);
+			m_Rigidbody2D.AddForce(new Vector2(1000,1000));
 		}
 		else
         {
-			m_Rigidbody2D.AddForce(new Vector2(-grapTrans.transform.position.x, grapTrans.transform.position.y).normalized * 1000);
+			//m_Rigidbody2D.AddForce(new Vector2(-grapTrans.transform.position.x, grapTrans.transform.position.y).normalized * 1000);
+			m_Rigidbody2D.AddForce(new Vector2(-1000, 1000));
 		}
 		myAnimator.SetBool("Jumping", true);
 	}

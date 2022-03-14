@@ -14,7 +14,7 @@ public class GrappleMovement : MonoBehaviour
     void Start()
     {
         myController = FindObjectOfType<CharacterController2D>();
-        myRb.velocity = (transform.right * speed) + transform.up * speed * 2;
+        myRb.velocity = (transform.right * speed * 1.5f) + transform.up * speed * 2;
     }
 
     // Update is called once per frame
