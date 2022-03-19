@@ -5,11 +5,14 @@ using UnityEngine;
 public class FlyController : MonoBehaviour
 {
     public int flyHealth = 3;
+    public bool partOfSwarm = false;
     private SpriteRenderer myRenderer;
+    private LevelOneAchievements myAchievements;
 
     // Start is called before the first frame update
     void Start()
     {
+        myAchievements = FindObjectOfType<LevelOneAchievements>();
         myRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -18,7 +21,11 @@ public class FlyController : MonoBehaviour
     {
         //If health hits 0, kill the fly
         if (flyHealth == 0)
+        {
+            if (partOfSwarm == true)
+                myAchievements.ReduceEnemies();
             Destroy(gameObject);
+        }
 
         //Randomly move the fly around
         int randyDir = Random.Range(1, 5);

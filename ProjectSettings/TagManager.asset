@@ -9,6 +9,7 @@ TagManager:
   - grappleWall
   - vines
   - fly
+  - artefact
   layers:
   - Default
   - TransparentFX
