@@ -7,22 +7,41 @@ public class LevelOneAchievements : MonoBehaviour
 
     public int artefactCounter;
     private int enemiesLeft = 5;
+    private bool scrapbookShown = false;
 
     public bool artefactAchieved = false;
     public bool idolFound = false;
     public bool enemiesDefeated = false;
     public bool levelFinished = false;
 
+    public GameObject scrapbook;
+    public GameObject iconArtefact;
+    public GameObject iconIdol;
+    public GameObject iconCompleted;
+    public GameObject iconFly;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        scrapbook.transform.localPosition = new Vector3(0, 100, 10);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (scrapbookShown == false)
+            {
+                scrapbook.transform.localPosition = new Vector3(0, 0, 10);
+                scrapbookShown = true;
+            }
+            else
+            {
+                scrapbook.transform.localPosition = new Vector3(0, 100, 10);
+                scrapbookShown = false;
+            }
+        }
     }
 
     public void ReduceEnemies()
