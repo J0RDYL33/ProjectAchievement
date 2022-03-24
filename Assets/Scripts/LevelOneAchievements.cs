@@ -24,6 +24,10 @@ public class LevelOneAchievements : MonoBehaviour
     void Start()
     {
         scrapbook.transform.localPosition = new Vector3(0, 100, 10);
+        iconArtefact.SetActive(false);
+        iconIdol.SetActive(false);
+        iconFly.SetActive(false);
+        iconCompleted.SetActive(false);
     }
 
     // Update is called once per frame
@@ -54,6 +58,7 @@ public class LevelOneAchievements : MonoBehaviour
     private void AchieveEnemies()
     {
         enemiesDefeated = true;
+        iconFly.SetActive(true);
     }
 
     public void AddToArtefacts()
@@ -66,15 +71,18 @@ public class LevelOneAchievements : MonoBehaviour
     private void AchieveArtefacts()
     {
         artefactAchieved = true;
+        iconArtefact.SetActive(true);
     }
 
     public void AchieveIdol()
     {
         idolFound = true;
+        iconIdol.SetActive(true);
     }
 
     public void AchieveEnd()
     {
         levelFinished = true;
+        iconCompleted.SetActive(true);
     }
 }
