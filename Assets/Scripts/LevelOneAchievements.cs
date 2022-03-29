@@ -23,7 +23,7 @@ public class LevelOneAchievements : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        scrapbook.transform.localPosition = new Vector3(0, 100, 10);
+        scrapbook.transform.localPosition = new Vector3(0, 1000, 10);
         iconArtefact.SetActive(false);
         iconIdol.SetActive(false);
         iconFly.SetActive(false);
@@ -42,7 +42,7 @@ public class LevelOneAchievements : MonoBehaviour
             }
             else
             {
-                scrapbook.transform.localPosition = new Vector3(0, 100, 10);
+                scrapbook.transform.localPosition = new Vector3(0, 1000, 10);
                 scrapbookShown = false;
             }
         }
