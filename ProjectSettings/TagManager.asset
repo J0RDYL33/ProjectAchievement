@@ -10,6 +10,7 @@ TagManager:
   - vines
   - fly
   - artefact
+  - spikes
   layers:
   - Default
   - TransparentFX

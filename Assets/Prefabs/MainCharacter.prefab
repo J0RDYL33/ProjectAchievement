@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9165681692584474701}
   - component: {fileID: 9165681692584474702}
   - component: {fileID: 9165681692584474696}
+  - component: {fileID: 1798127094980727130}
   - component: {fileID: 9165681692584474697}
   - component: {fileID: 9165681692584474703}
   m_Layer: 0
@@ -205,6 +206,20 @@ MonoBehaviour:
   wallJumpTime: 0.5
   maxGrappleRange: 20
   stopAttack: 0
+--- !u!114 &1798127094980727130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9165681692584474806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aad9e39f187fb0d42bb7da3e1cd50cdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flyObject: {fileID: 0}
+  hitFly: {fileID: 0}
 --- !u!61 &9165681692584474697
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -443,6 +458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 177e32460f7996848b335032fbdd8ea3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFrontClimbable: 0
 --- !u!58 &9026301444711032991
 CircleCollider2D:
   m_ObjectHideFlags: 0
