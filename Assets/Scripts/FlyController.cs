@@ -20,7 +20,7 @@ public class FlyController : MonoBehaviour
     void Update()
     {
         //If health hits 0, kill the fly
-        if (flyHealth == 0)
+        if (flyHealth <= 0)
         {
             if (partOfSwarm == true)
                 myAchievements.ReduceEnemies();

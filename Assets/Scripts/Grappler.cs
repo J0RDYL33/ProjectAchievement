@@ -6,6 +6,8 @@ public class Grappler : MonoBehaviour
 {
     public Transform firePoint;
     public GameObject grapplePrefab;
+    public GameObject goldenPrefab;
+    public bool goldenGrapple = false;
     private float fireTimer = 3.0f;
 
     // Update is called once per frame
@@ -22,6 +24,9 @@ public class Grappler : MonoBehaviour
 
     void Shoot()
     {
-        Instantiate(grapplePrefab, firePoint.position, firePoint.rotation);
+        if (goldenGrapple == false)
+            Instantiate(grapplePrefab, firePoint.position, firePoint.rotation);
+        else
+            Instantiate(goldenPrefab, firePoint.position, firePoint.rotation);
     }
 }

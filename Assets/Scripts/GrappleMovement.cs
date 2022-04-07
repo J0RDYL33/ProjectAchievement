@@ -7,7 +7,7 @@ public class GrappleMovement : MonoBehaviour
     public float speed = 20;
     public Rigidbody2D myRb;
     CharacterController2D myController;
-    private float timeTilDeath = 3.0f;
+    public float timeTilDeath;
 
 
     // Start is called before the first frame update

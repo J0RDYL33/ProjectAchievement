@@ -48,6 +48,10 @@ public class CharacterController2D : MonoBehaviour
 	private float attackCountdown = 0.5f;
 	public bool stopAttack;
 	Vector2 direction;
+	public int playerHealth = 3;
+	private float invulnerability = 2.0f;
+	public int coinCount = 0;
+	private bool collectedGrapple = false;
 
 	private void Awake()
 	{
@@ -82,6 +86,10 @@ public class CharacterController2D : MonoBehaviour
 			}
 		}
 
+		if (invulnerability > 0.0f)
+        {
+			invulnerability -= Time.deltaTime;
+        }
 	}
 
     private void Update()
@@ -137,6 +145,20 @@ public class CharacterController2D : MonoBehaviour
 		allowWallJump = false;
 		yield return new WaitForSeconds(0.5f);
 		allowWallJump = true;
+    }
+
+	public void TakeDamage()
+    {
+		if (invulnerability <= 0.0f)
+        {
+			playerHealth--;
+			invulnerability = 2.0f;
+        }
+    }
+
+	public void AddCoins()
+    {
+		coinCount += 5;
     }
 
 	public void GrappleToWall(Transform grapTrans)
