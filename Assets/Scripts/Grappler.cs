@@ -8,7 +8,13 @@ public class Grappler : MonoBehaviour
     public GameObject grapplePrefab;
     public GameObject goldenPrefab;
     public bool goldenGrapple = false;
+    public SoundManager soundManScript;
     private float fireTimer = 3.0f;
+
+    private void Start()
+    {
+        soundManScript = FindObjectOfType<SoundManager>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -17,6 +23,7 @@ public class Grappler : MonoBehaviour
         {
             Shoot();
             fireTimer = 3.0f;
+            soundManScript.PlaySound("grappleShoot");
         }
 
         fireTimer -= Time.deltaTime;

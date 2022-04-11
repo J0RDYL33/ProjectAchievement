@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     public CharacterController2D myController;
     public float runSpeed = 40f;
     public Animator myAnimator;
+    public SoundManager soundManScript;
+    public bool running;
 
     CircleCollider2D myCollider;
     public float horizontalMove = 0f;
@@ -14,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        soundManScript = FindObjectOfType<SoundManager>();
         myCollider = GetComponent<CircleCollider2D>();
     }
     // Update is called once per frame
@@ -28,9 +31,15 @@ public class PlayerMovement : MonoBehaviour
 
         //Handle animation
         if (horizontalMove != 0)
+        {
+            running = true;
             myAnimator.SetBool("Running", true);
+        }
         else
+        {
+            running = false;
             myAnimator.SetBool("Running", false);
+        }
     }
 
     private void FixedUpdate()

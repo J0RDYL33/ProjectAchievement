@@ -6,14 +6,20 @@ public class FlyController : MonoBehaviour
 {
     public int flyHealth = 3;
     public bool partOfSwarm = false;
+    public float flyThrust;
+    public SoundManager soundManScript;
+
     private SpriteRenderer myRenderer;
     private LevelOneAchievements myAchievements;
+    private Rigidbody2D myRb;
 
     // Start is called before the first frame update
     void Start()
     {
         myAchievements = FindObjectOfType<LevelOneAchievements>();
         myRenderer = GetComponent<SpriteRenderer>();
+        myRb = GetComponent<Rigidbody2D>();
+        soundManScript = FindObjectOfType<SoundManager>();
     }
 
     // Update is called once per frame
@@ -24,6 +30,7 @@ public class FlyController : MonoBehaviour
         {
             if (partOfSwarm == true)
                 myAchievements.ReduceEnemies();
+            soundManScript.PlaySound("flyDeath");
             Destroy(gameObject);
         }
 
@@ -33,20 +40,24 @@ public class FlyController : MonoBehaviour
         switch (randyDir)
         {
             case (1):
-                newPos.x += 0.01f;
-                transform.position = newPos;
+                //newPos.x += 20.01f;
+                myRb.AddForce(transform.up * flyThrust);
+                //transform.position = newPos;
                 break;
             case (2):
-                newPos.x-= 0.01f;
-                transform.position = newPos;
+                //newPos.x-= 0.01f;
+                myRb.AddForce(-(transform.up * flyThrust));
+                //transform.position = newPos;
                 break;
             case (3):
-                newPos.y+= 0.01f;
-                transform.position = newPos;
+                //newPos.y+= 0.01f;
+                myRb.AddForce(transform.right * flyThrust);
+                //transform.position = newPos;
                 break;
             case (4):
-                newPos.y-= 0.01f;
-                transform.position = newPos;
+                //newPos.y-= 0.01f;
+                myRb.AddForce(-(transform.right * flyThrust));
+                //transform.position = newPos;
                 break;
         }
 
@@ -55,6 +66,13 @@ public class FlyController : MonoBehaviour
     public void TakeHit()
     {
         flyHealth--;
+
+        int randInt = Random.Range(0, 2);
+        if (randInt == 0)
+            soundManScript.PlaySound("flyHit");
+        else
+            soundManScript.PlaySound("flyHit2");
+
         StartCoroutine(FlyColor());
     }
 
@@ -63,5 +81,13 @@ public class FlyController : MonoBehaviour
         myRenderer.color = Color.red;
         yield return new WaitForSeconds(0.5f);
         myRenderer.color = Color.white;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag == "grapple")
+        {
+            TakeHit();
+        }
     }
 }

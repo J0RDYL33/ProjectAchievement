@@ -8,6 +8,7 @@ public class LevelOneAchievements : MonoBehaviour
     public int artefactCounter;
     private int enemiesLeft = 5;
     private bool scrapbookShown = false;
+    public SoundManager soundManScript;
 
     public bool artefactAchieved = false;
     public bool idolFound = false;
@@ -24,6 +25,7 @@ public class LevelOneAchievements : MonoBehaviour
     void Start()
     {
         scrapbook.transform.localPosition = new Vector3(0, 1000, 10);
+        soundManScript = FindObjectOfType<SoundManager>();
         iconArtefact.SetActive(false);
         iconIdol.SetActive(false);
         iconFly.SetActive(false);
@@ -39,11 +41,13 @@ public class LevelOneAchievements : MonoBehaviour
             {
                 scrapbook.transform.localPosition = new Vector3(0, 0, 10);
                 scrapbookShown = true;
+                soundManScript.PlaySound("menuOpen");
             }
             else
             {
                 scrapbook.transform.localPosition = new Vector3(0, 1000, 10);
                 scrapbookShown = false;
+                soundManScript.PlaySound("menuClose");
             }
         }
     }
@@ -59,6 +63,7 @@ public class LevelOneAchievements : MonoBehaviour
     {
         enemiesDefeated = true;
         iconFly.SetActive(true);
+        soundManScript.PlaySound("scribble");
     }
 
     public void AddToArtefacts()
@@ -72,17 +77,20 @@ public class LevelOneAchievements : MonoBehaviour
     {
         artefactAchieved = true;
         iconArtefact.SetActive(true);
+        soundManScript.PlaySound("scribble");
     }
 
     public void AchieveIdol()
     {
         idolFound = true;
         iconIdol.SetActive(true);
+        soundManScript.PlaySound("scribble");
     }
 
     public void AchieveEnd()
     {
         levelFinished = true;
         iconCompleted.SetActive(true);
+        soundManScript.PlaySound("scribble");
     }
 }

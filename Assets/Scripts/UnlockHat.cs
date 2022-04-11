@@ -5,12 +5,14 @@ using UnityEngine;
 public class UnlockHat : MonoBehaviour
 {
     public int myHatIndex;
+    public SoundManager soundManScript;
 
     private LevelThreeAchievements myAchievements;
     // Start is called before the first frame update
     void Start()
     {
         myAchievements = FindObjectOfType<LevelThreeAchievements>();
+        soundManScript = FindObjectOfType<SoundManager>();
     }
 
     // Update is called once per frame
@@ -21,7 +23,11 @@ public class UnlockHat : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        myAchievements.UnlockHat(myHatIndex);
-        Destroy(gameObject);
+        if (collision.gameObject.tag == "Player")
+        {
+            soundManScript.PlaySound("hat");
+            myAchievements.UnlockHat(myHatIndex);
+            Destroy(gameObject);
+        }
     }
 }

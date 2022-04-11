@@ -6,10 +6,18 @@ public class VineDestroyer : MonoBehaviour
 {
     public GameObject flyObject;
     public FlyController hitFly;
+    public SoundManager soundManScript;
+
+    private void Start()
+    {
+        soundManScript = FindObjectOfType<SoundManager>();
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "vines")
         {
+            soundManScript.PlaySound("vineHit");
             Destroy(other.transform.parent.gameObject);
         }
 

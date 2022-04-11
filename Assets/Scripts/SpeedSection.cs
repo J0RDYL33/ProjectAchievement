@@ -10,6 +10,7 @@ public class SpeedSection : MonoBehaviour
     private float desiredTime = 30.0f;
     private bool inSection = false;
     private bool finished = false;
+    private bool achieved = false;
     private LevelTwoAchievements myAchievements;
     
     // Start is called before the first frame update
@@ -39,8 +40,9 @@ public class SpeedSection : MonoBehaviour
         inSection = false;
         finished = true;
 
-        if (playerSpeed < desiredTime)
+        if (playerSpeed < desiredTime && achieved == false)
         {
+            achieved = true;
             myAchievements.AchieveSpeed();
         }
     }

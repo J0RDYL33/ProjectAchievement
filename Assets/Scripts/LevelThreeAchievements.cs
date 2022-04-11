@@ -9,6 +9,7 @@ public class LevelThreeAchievements : MonoBehaviour
     public Sprite[] listOfHats;
     public SpriteRenderer hatContainer;
     public Image[] buttonImages;
+    public SoundManager soundManScript;
 
     private Sprite tempSprite;
     private bool scrapbookShown = false;
@@ -18,6 +19,7 @@ public class LevelThreeAchievements : MonoBehaviour
     {
         scrapbook.transform.localPosition = new Vector3(0, 1000, 10);
         unlocked[0] = true;
+        soundManScript = FindObjectOfType<SoundManager>();
     }
 
     // Update is called once per frame
@@ -29,11 +31,13 @@ public class LevelThreeAchievements : MonoBehaviour
             {
                 scrapbook.transform.localPosition = new Vector3(0, 0, 10);
                 scrapbookShown = true;
+                soundManScript.PlaySound("menuOpen");
             }
             else
             {
                 scrapbook.transform.localPosition = new Vector3(0, 1000, 10);
                 scrapbookShown = false;
+                soundManScript.PlaySound("menuClose");
             }
         }
     }
@@ -42,6 +46,7 @@ public class LevelThreeAchievements : MonoBehaviour
     {
         if(unlocked[hatToSwitch] == true)
         {
+            soundManScript.PlaySound("hatConfirm");
             hatContainer.sprite = listOfHats[hatToSwitch];
         }
     }
@@ -50,5 +55,6 @@ public class LevelThreeAchievements : MonoBehaviour
     {
         unlocked[hatToUnlock] = true;
         buttonImages[hatToUnlock].color = Color.white;
+        soundManScript.PlaySound("hat");
     }
 }

@@ -22,6 +22,7 @@ public class CharacterController2D : MonoBehaviour
 	private Vector3 m_Velocity = Vector3.zero;
 	private Animator myAnimator;
 	private FrontCheckGetCollider myFrontCheck;
+	private bool walkingSound;
 
 	[Header("Events")]
 	[Space]
@@ -44,6 +45,7 @@ public class CharacterController2D : MonoBehaviour
 	public float yWallForce;
 	public float wallJumpTime;
 	public float maxGrappleRange = 20f;
+	public SoundManager soundManScript;
 	private bool allowWallJump = true;
 	private float attackCountdown = 0.5f;
 	public bool stopAttack;
@@ -59,6 +61,7 @@ public class CharacterController2D : MonoBehaviour
 		myAnimator = GetComponent<Animator>();
 		myMovement = FindObjectOfType<PlayerMovement>();
 		myFrontCheck = FindObjectOfType<FrontCheckGetCollider>();
+		soundManScript = FindObjectOfType<SoundManager>();
 
 		if (OnLandEvent == null)
 			OnLandEvent = new UnityEvent();
@@ -130,6 +133,7 @@ public class CharacterController2D : MonoBehaviour
 			//m_Rigidbody2D.AddForce(new Vector2(-myMovement.horizontalMove / 10, m_JumpForce / 75));
 			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
 			myAnimator.SetBool("Jumping", true);
+			soundManScript.PlaySound("jumpEffort");
 		}
 
 		//Attack inputs
@@ -137,7 +141,13 @@ public class CharacterController2D : MonoBehaviour
         {
 			attackCountdown = 0.5f;
 			myAnimator.SetBool("Attacking", true);
+			soundManScript.PlaySound("sword");
 		}
+
+		if (m_Grounded == true && myMovement.running == true)
+        {
+			StartCoroutine(WalkingSounds());
+        }
 	}
 
 	IEnumerator CountdownWalljump()
@@ -158,11 +168,14 @@ public class CharacterController2D : MonoBehaviour
 
 	public void AddCoins()
     {
+		soundManScript.PlaySound("coin");
 		coinCount += 5;
     }
 
 	public void GrappleToWall(Transform grapTrans)
     {
+		//soundManScript.PlaySound("grappleReel");
+		soundManScript.PlaySound("grappleAttach");
 		m_Grounded = false;
 		var pointer = grapTrans.position - gameObject.transform.position;
 		var distance = pointer.magnitude;
@@ -185,6 +198,16 @@ public class CharacterController2D : MonoBehaviour
 		wallJumping = false;
     }
 
+	IEnumerator WalkingSounds()
+	{
+		if (walkingSound == false)
+		{
+			walkingSound = true;
+			soundManScript.PlaySound("walking");
+			yield return new WaitForSeconds(0.2f);
+			walkingSound = false;
+		}
+	}
 
 	public void Move(float move, bool crouch, bool jump)
 	{
@@ -255,6 +278,7 @@ public class CharacterController2D : MonoBehaviour
 			m_Grounded = false;
 			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
 			myAnimator.SetBool("Jumping", true);
+			soundManScript.PlaySound("jumpEffort");
 		}
 	}
 

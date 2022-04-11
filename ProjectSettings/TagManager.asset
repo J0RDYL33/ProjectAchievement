@@ -12,6 +12,7 @@ TagManager:
   - artefact
   - spikes
   - goldengrapple
+  - altplayer
   layers:
   - Default
   - TransparentFX
