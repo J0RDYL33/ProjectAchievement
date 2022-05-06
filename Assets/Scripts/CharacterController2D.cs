@@ -122,7 +122,7 @@ public class CharacterController2D : MonoBehaviour
 		{
 			m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, Mathf.Clamp(m_Rigidbody2D.velocity.y, -wallSlidingSpeed, float.MaxValue));
 		}
-		if (Input.GetKeyDown(KeyCode.Space) && wallSliding == true)
+		if (Input.GetButtonDown("Jump") && wallSliding == true)
 		{
 			wallJumping = true;
 			Invoke("SetWallJumpingToFalse", wallJumpTime);
