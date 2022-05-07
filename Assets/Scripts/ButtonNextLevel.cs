@@ -12,6 +12,7 @@ public class ButtonNextLevel : MonoBehaviour
     {
         myMusic = FindObjectOfType<MusicManager>();
         mySound = FindObjectOfType<SoundManager>();
+        myMusic.ChangeToEndLevel();
     }
 
     // Update is called once per frame
