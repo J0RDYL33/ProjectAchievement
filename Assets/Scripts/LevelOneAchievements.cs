@@ -9,6 +9,7 @@ public class LevelOneAchievements : MonoBehaviour
     private int enemiesLeft = 5;
     private bool scrapbookShown = false;
     public SoundManager soundManScript;
+    public MusicManager musicManScript;
 
     public bool artefactAchieved = false;
     public bool idolFound = false;
@@ -26,6 +27,8 @@ public class LevelOneAchievements : MonoBehaviour
     {
         scrapbook.transform.localPosition = new Vector3(0, 1000, 10);
         soundManScript = FindObjectOfType<SoundManager>();
+        musicManScript = FindObjectOfType<MusicManager>();
+        musicManScript.ChangeToLevel1();
         iconArtefact.SetActive(false);
         iconIdol.SetActive(false);
         iconFly.SetActive(false);

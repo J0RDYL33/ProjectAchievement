@@ -10,6 +10,7 @@ public class LevelThreeAchievements : MonoBehaviour
     public SpriteRenderer hatContainer;
     public Image[] buttonImages;
     public SoundManager soundManScript;
+    public MusicManager musicManScript;
 
     private Sprite tempSprite;
     private bool scrapbookShown = false;
@@ -20,6 +21,8 @@ public class LevelThreeAchievements : MonoBehaviour
         scrapbook.transform.localPosition = new Vector3(0, 1000, 10);
         unlocked[0] = true;
         soundManScript = FindObjectOfType<SoundManager>();
+        musicManScript = FindObjectOfType<MusicManager>();
+        musicManScript.ChangeToLevel3();
     }
 
     // Update is called once per frame

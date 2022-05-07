@@ -27,11 +27,31 @@ public class MusicManager : MonoBehaviour
 
     public void ChangeToMenu()
     {
-        audioSrc.PlayOneShot(menuMusic);
+        audioSrc.clip = menuMusic;
+        audioSrc.Play();
     }
 
     public void ChangeToLevel1()
     {
-        audioSrc.PlayOneShot(level1Music);
+        audioSrc.clip = level1Music;
+        audioSrc.Play();
+    }
+
+    public void ChangeToLevel2()
+    {
+        audioSrc.clip = level2Music;
+        audioSrc.Play();
+    }
+
+    public void ChangeToLevel3()
+    {
+        audioSrc.clip = level3Music;
+        audioSrc.Play();
+    }
+
+    public void ChangeToEndLevel()
+    {
+        audioSrc.clip = victoryMusic;
+        audioSrc.Play();
     }
 }

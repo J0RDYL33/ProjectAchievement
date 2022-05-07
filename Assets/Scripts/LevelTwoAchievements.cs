@@ -14,6 +14,7 @@ public class LevelTwoAchievements : MonoBehaviour
     public Sprite newComplete;
     public GameObject scrapbook;
     public SoundManager soundManScript;
+    public MusicManager musicManScript;
 
     private bool scrapbookShown = false;
     // Start is called before the first frame update
@@ -21,6 +22,8 @@ public class LevelTwoAchievements : MonoBehaviour
     {
         scrapbook.transform.localPosition = new Vector3(0, 1000, 10);
         soundManScript = FindObjectOfType<SoundManager>();
+        musicManScript = FindObjectOfType<MusicManager>();
+        musicManScript.ChangeToLevel2();
     }
 
     // Update is called once per frame
